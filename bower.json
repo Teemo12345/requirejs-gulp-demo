@@ -1,0 +1,25 @@
+{
+  "name": "requirejs-gulp-demo",
+  "description": "requirejs多页面示例",
+  "main": "app.js",
+  "authors": [
+    "mactang"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "requirejs",
+    "demo"
+  ],
+  "homepage": "https://github.com/Teemo12345/requirejs-gulp-demo",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/js/lib",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "requirejs": "^2.3.3"
+  }
+}
