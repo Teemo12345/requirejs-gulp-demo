@@ -1,0 +1,16 @@
+
+css/css.css
+----------------
+css/css.css
+
+js/app/app1.js
+----------------
+js/app/common.js
+js/app/app1.js
+js/app/home/home.js
+
+js/app/app2.js
+----------------
+js/app/common.js
+js/app/app2.js
+js/app/user/user.js
