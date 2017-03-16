@@ -24,10 +24,35 @@ var util = require("gulp-util")
 var rimraf = require('rimraf')
 //按顺序执行TASK
 var runSequence = require('run-sequence')
-
+//可以创建一个简单的服务器
+var connect = require('gulp-connect')
+//open
+var open = require('open')
 
 gulp.task('default',function(){
   util.log("build = all")
+})
+
+
+gulp.task('dist:serve',function(){
+  connect.server({
+    root:'dist',
+    port:9100
+  })
+})
+
+gulp.task('start:app',['app:serve'],function(){
+  open("http://localhost:9101")
+})
+
+gulp.task('start:dist',['dist:serve'],function(){
+  open("http://localhost:9100")
+})
+gulp.task('app:serve',function(){
+  connect.server({
+    root:['views','public'],
+    port:9101
+  })
 })
 
 gulp.task('del:dist',function(cb){
@@ -41,7 +66,7 @@ gulp.task('del:src',function(cb){
 gulp.task("rjs",function(cb){
   var conf = {
     appDir:'public', //项目路径
-    baseUrl:'./', 
+    baseUrl:'./js/', 
     mainConfigFile:'public/js/app/common.js', //require.config({})文件绝对路径
     modules:[ //模块名，可能存在多个require() data-main 启动文件 
       // {
@@ -49,19 +74,21 @@ gulp.task("rjs",function(cb){
       // }
       // ,
       {  
-        name:"js/app/app1",//注意此处路径为,如果设置了appDir，此处必须为appdir后的路径
-        include:['js/app/home/home'],//因为APP1为require加载文件，所以这里需要手动包含哪个文件，
-        exclude: ['js/lib/echarts/3.line.bar.k.min'] //排除，data-main的多页面文件中的require[comman']中的common前面加./common不然会找不到路径错误
+        name:"app/app1",//注意此处路径为,如果设置了appDir，此处必须为appdir后的路径
+        include:['app/home/home'],//因为APP1为require加载文件，所以这里需要手动包含哪个文件，
+        // exclude: ['js/lib/echarts/3.line.bar.k.min'], 
+        //排除，data-main的多页面文件中的require[comman']中的common前面加./common不然会找不到路径错误
+        exclude:['app/common']
       },
       {
-        name:"js/app/app2",
-        include:"js/app/user/user",
-        // exclude:['js/app/common']
+        name:"app/app2",
+        include:"app/user/user",
+        exclude:['app/common']
       }
     ],
     paths:{
-    'app':'app',
-    'echarts': 'js/lib/echarts/3.line.bar.k.min'
+    // 'app':'empty:',
+    'echarts': 'empty:'
     },
     optimizeCss:"standard",
     // skipDirOptimize:true,
@@ -92,7 +119,7 @@ gulp.task("html:compress",function(cb){
 
 
 gulp.task("add:rev",["rjs"],function(cb){
-  var fjs = filter("**/**/app/*.js",{restore: true})
+  var fjs = filter(["**/**/app/*.js","!dist/src/js/app/common.js"],{restore: true})
   var fcss = filter("dist/src/css/*.css",{restore: true})
   gulp.src(['dist/src/**/*.js',"dist/src/**/*.css"])
     .pipe(fjs)

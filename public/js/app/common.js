@@ -1,7 +1,7 @@
 require.config({
   baseUrl:'/js/',
   paths:{
-    'app':'app',
+    // 'app':'app',
     'echarts': 'lib/echarts/3.line.bar.k.min'
   },
    bundles: {

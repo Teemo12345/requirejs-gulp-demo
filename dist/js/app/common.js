@@ -1,0 +1,1 @@
+require.config({baseUrl:"/js/",paths:{echarts:"lib/echarts/3.line.bar.k.min"},bundles:{echarts:["echarts/chart/line","echarts/chart/bar","echarts/chart/candlestick","echarts/component/legend","echarts/component/tooltip","echarts/component/dataZoom","echarts/chart/pie"]}});
